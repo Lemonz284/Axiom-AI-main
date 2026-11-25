@@ -1,0 +1,436 @@
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/geist";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Inter', 'Geist Variable', system-ui, sans-serif;
+    @apply bg-background text-foreground;
+  }
+  .theme {
+    --font-heading: var(--font-sans);
+    --font-sans: 'Geist Variable', sans-serif;
+  }
+  :root {
+    --background: 1 0 0;
+    --foreground: 0.145 0 0;
+    --card: 1 0 0;
+    --card-foreground: 0.145 0 0;
+    --popover: 1 0 0;
+    --popover-foreground: 0.145 0 0;
+    --primary: 0.205 0 0;
+    --primary-foreground: 0.985 0 0;
+    --secondary: 0.97 0 0;
+    --secondary-foreground: 0.205 0 0;
+    --muted: 0.97 0 0;
+    --muted-foreground: 0.556 0 0;
+    --accent: 0.97 0 0;
+    --accent-foreground: 0.205 0 0;
+    --destructive: 0.577 0.245 27.325;
+    --destructive-foreground: 0.985 0 0;
+    --success: 0.527 0.154 150.069;
+    --success-foreground: 0.985 0 0;
+    --border: 0.922 0 0;
+    --input: 0.922 0 0;
+    --ring: 0.708 0 0;
+    --chart-1: 0.87 0 0;
+    --chart-2: 0.556 0 0;
+    --chart-3: 0.439 0 0;
+    --chart-4: 0.371 0 0;
+    --chart-5: 0.269 0 0;
+    --radius: 0.5rem;
+    --sidebar: 0.985 0 0;
+    --sidebar-foreground: 0.145 0 0;
+    --sidebar-primary: 0.205 0 0;
+    --sidebar-primary-foreground: 0.985 0 0;
+    --sidebar-accent: 0.97 0 0;
+    --sidebar-accent-foreground: 0.205 0 0;
+    --sidebar-border: 0.922 0 0;
+    --sidebar-ring: 0.708 0 0;
+  }
+  .dark {
+    --shadow-grey: #18181b;
+    --black: #09090b;
+    
+    /* Clean monochrome neutral dark palette matching Landing Page (#09090b) */
+    --background: 0.14 0 0;
+    --foreground: 0.985 0 0;
+    --card: 0.17 0 0;
+    --card-foreground: 0.985 0 0;
+    --popover: 0.17 0 0;
+    --popover-foreground: 0.985 0 0;
+    --primary: 0.985 0 0;
+    --primary-foreground: 0.14 0 0;
+    --secondary: 0.22 0 0;
+    --secondary-foreground: 0.985 0 0;
+    --muted: 0.20 0 0;
+    --muted-foreground: 0.65 0 0;
+    --accent: 0.22 0 0;
+    --accent-foreground: 0.985 0 0;
+    --destructive: 0.65 0.22 25;
+    --destructive-foreground: 0.985 0 0;
+    --success: 0.65 0.17 150;
+    --success-foreground: 0.14 0 0;
+    --border: 0.27 0 0;
+    --input: 0.27 0 0;
+    --ring: 0.45 0 0;
+    --chart-1: 0.87 0 0;
+    --chart-2: 0.556 0 0;
+    --chart-3: 0.439 0 0;
+    --chart-4: 0.371 0 0;
+    --chart-5: 0.269 0 0;
+    --radius: 0.5rem;
+    --sidebar: 0.15 0 0;
+    --sidebar-foreground: 0.985 0 0;
+    --sidebar-primary: 0.985 0 0;
+    --sidebar-primary-foreground: 0.14 0 0;
+    --sidebar-accent: 0.22 0 0;
+    --sidebar-accent-foreground: 0.985 0 0;
+    --sidebar-border: 0.27 0 0;
+    --sidebar-ring: 0.45 0 0;
+  }
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    font-size: 105%;
+  }
+}
+
+/* React Flow Dark Theme Overrides */
+.react-flow__controls {
+  background-color: var(--shadow-grey) !important;
+  border-color: #444 !important;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.react-flow__controls-button {
+  background-color: var(--shadow-grey) !important;
+  color: #fff !important;
+  border-bottom: 1px solid #444 !important;
+}
+.react-flow__controls-button:hover {
+  background-color: #333940 !important;
+}
+.react-flow__controls-button svg {
+  fill: #fff !important;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: oklch(0.145 0 0 / 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: oklch(1 0 0 / 0.15);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(1 0 0 / 0.3);
+}
+
+/* Pulse animation for indexing status dot */
+@keyframes pulse-yellow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+}
+
+.animate-pulse-yellow {
+  animation: pulse-yellow 1.5s infinite ease-in-out;
+}
+
+/* 3D Flashcard Flip */
+.card-flip-container {
+  perspective: 1000px;
+}
+
+.card-flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.card-flip-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+}
+
+/* Score pill pop animation */
+@keyframes score-pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.animate-score-pop {
+  animation: score-pop 0.3s ease-out;
+}
+
+/* ─── Perfect Clerk Modal Alignment & Card Styling Guarantee ─── */
+.cl-modalBackdrop {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 99999 !important;
+  background-color: rgba(0, 0, 0, 0.72) !important;
+  backdrop-filter: blur(8px) !important;
+  padding: 1rem !important;
+  box-sizing: border-box !important;
+}
+
+.cl-modalContent {
+  margin: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  max-width: 100% !important;
+  position: relative !important;
+  z-index: 100000 !important;
+}
+
+/* ─── Modal Sign In / Sign Up: Classic White Card (Pixel-Perfect to Screenshot) ─── */
+.cl-modalContent .cl-card,
+.cl-signIn-root .cl-card,
+.cl-signUp-root .cl-card {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  color: #111827 !important;
+  border-radius: 0.875rem !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0, 0, 0, 0.08) !important;
+  border: 1px solid #e5e7eb !important;
+  max-width: 420px !important;
+  width: 100% !important;
+  overflow: hidden !important;
+}
+
+.cl-modalContent .cl-headerTitle,
+.cl-signIn-root .cl-headerTitle,
+.cl-signUp-root .cl-headerTitle {
+  color: #111827 !important;
+  font-weight: 700 !important;
+  font-size: 1.35rem !important;
+  text-align: center !important;
+  letter-spacing: -0.02em !important;
+}
+
+.cl-modalContent .cl-headerSubtitle,
+.cl-signIn-root .cl-headerSubtitle,
+.cl-signUp-root .cl-headerSubtitle {
+  color: #6b7280 !important;
+  font-size: 0.875rem !important;
+  text-align: center !important;
+}
+
+/* ─── Social Buttons: Google Only (Hide GitHub Completely) ─── */
+.cl-socialButtonsBlockButton {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 0.5rem !important;
+  color: #1f2937 !important;
+  font-weight: 500 !important;
+  font-size: 0.875rem !important;
+  height: 2.75rem !important;
+  transition: all 0.15s ease !important;
+}
+
+.cl-socialButtonsBlockButton:hover {
+  background-color: #f9fafb !important;
+  border-color: #d1d5db !important;
+}
+
+.cl-socialButtonsBlockButtonText {
+  color: #1f2937 !important;
+  font-weight: 500 !important;
+}
+
+/* HIDE GITHUB BUTTON COMPLETELY */
+.cl-socialButtonsBlockButton__github,
+.cl-socialButtonsBlockButton[data-provider="github"],
+.cl-socialButtonsBlockButtonProvider__github,
+button.cl-socialButtonsBlockButton:has([data-provider="github"]),
+button.cl-socialButtonsBlockButton:has(svg[data-icon="github"]),
+button.cl-socialButtonsBlockButton:has(img[alt*="github" i]),
+button.cl-socialButtonsBlockButton:has([class*="github" i]) {
+  display: none !important;
+}
+
+/* ─── Divider ─── */
+.cl-dividerRow {
+  margin: 1.25rem 0 !important;
+}
+
+.cl-dividerLine {
+  background-color: #e5e7eb !important;
+}
+
+.cl-dividerText {
+  color: #9ca3af !important;
+  font-size: 0.8125rem !important;
+  text-transform: lowercase !important;
+}
+
+/* ─── Form Inputs & Labels ─── */
+.cl-formFieldLabel {
+  color: #111827 !important;
+  font-weight: 600 !important;
+  font-size: 0.875rem !important;
+  margin-bottom: 0.375rem !important;
+}
+
+.cl-formFieldInput {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  border: 1px solid #d1d5db !important;
+  color: #111827 !important;
+  border-radius: 0.5rem !important;
+  font-size: 0.875rem !important;
+  padding: 0.625rem 0.875rem !important;
+  height: 2.75rem !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+.cl-formFieldInput:focus {
+  border-color: #111827 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.1) !important;
+}
+
+.cl-formFieldInput::placeholder {
+  color: #9ca3af !important;
+}
+
+/* ─── Primary Submit Button (Continue ▶) ─── */
+.cl-formButtonPrimary {
+  background-color: #24292f !important;
+  background: #24292f !important;
+  color: #ffffff !important;
+  border-radius: 0.5rem !important;
+  font-weight: 600 !important;
+  font-size: 0.875rem !important;
+  height: 2.75rem !important;
+  border: none !important;
+  transition: background-color 0.15s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.375rem !important;
+  margin-top: 1rem !important;
+}
+
+.cl-formButtonPrimary:hover {
+  background-color: #1b1f23 !important;
+}
+
+/* ─── Footer Bar ─── */
+.cl-footer {
+  background-color: #f9fafb !important;
+  background: #f9fafb !important;
+  border-top: 1px solid #f3f4f6 !important;
+  padding: 1rem 1.5rem !important;
+}
+
+.cl-footerActionText {
+  color: #6b7280 !important;
+  font-size: 0.8125rem !important;
+}
+
+.cl-footerActionLink {
+  color: #111827 !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+}
+
+.cl-footerActionLink:hover {
+  text-decoration: underline !important;
+}
+
+/* ─── Clerk UserButton Profile Popover: Solid & Translucent Dark Styling ─── */
+.cl-userButtonPopoverCard,
+.cl-userButtonPopoverRootBox,
+.cl-userButtonPopoverCard .cl-popoverBox {
+  background-color: #18181b !important;
+  background: #18181b !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-radius: 0.85rem !important;
+  color: #f4f4f5 !important;
+  opacity: 1 !important;
+}
+
+.cl-userButtonPopoverFooter {
+  background-color: #121214 !important;
+  background: #121214 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-bottom-left-radius: 0.85rem !important;
+  border-bottom-right-radius: 0.85rem !important;
+}
+
+.cl-userButtonPopoverActionButton {
+  color: #d4d4d8 !important;
+  border-radius: 0.5rem !important;
+  padding: 0.5rem 0.75rem !important;
+  transition: background-color 0.15s ease, color 0.15s ease !important;
+}
+
+.cl-userButtonPopoverActionButton:hover {
+  background-color: #27272a !important;
+  color: #ffffff !important;
+}
+
+.cl-userButtonPopoverActionButtonText {
+  color: inherit !important;
+  font-weight: 500 !important;
+}
+
+.cl-userButtonPopoverActionButtonIcon {
+  color: #a1a1aa !important;
+}
+
+.cl-userPreviewSecondaryIdentifier {
+  color: #a1a1aa !important;
+  font-size: 0.75rem !important;
+}
+
+.cl-userPreviewPrimaryIdentifier {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+

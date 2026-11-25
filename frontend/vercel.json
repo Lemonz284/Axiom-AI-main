@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://axiom-ai-v3o0.onrender.com/api/$1"
+    }
+  ]
+}

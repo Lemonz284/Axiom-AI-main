@@ -1,0 +1,145 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Notebook {
+  id             String            @id @default(uuid())
+  name           String
+  ownerId        String            @default("default-user")
+  createdAt      DateTime          @default(now())
+  isPinned       Boolean           @default(false)
+  flashcardDecks FlashcardDeck[]
+  mindMaps       MindMap[]
+  overview       NotebookOverview?
+  queries        Query[]
+  quizzes        Quiz[]
+  roadmaps       Roadmap[]
+  sources        Source[]
+}
+
+model Source {
+  id            String    @id @default(uuid())
+  notebookId    String
+  type          String
+  originalUri   String
+  title         String?
+  status        String    @default("UPLOADING")
+  statusDetail  String?
+  rawContentRef String?
+  createdAt     DateTime  @default(now())
+  indexedAt     DateTime?
+  chunks        Chunk[]
+  notebook      Notebook  @relation(fields: [notebookId], references: [id], onDelete: Cascade)
+}
+
+model Chunk {
+  id         String   @id @default(uuid())
+  sourceId   String
+  notebookId String
+  text       String
+  chunkIndex Int
+  location   String
+  createdAt  DateTime @default(now())
+  source     Source   @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+
+  @@index([notebookId])
+  @@index([sourceId])
+}
+
+model Query {
+  id         String   @id @default(uuid())
+  notebookId String
+  question   String
+  createdAt  DateTime @default(now())
+  answer     Answer?
+  notebook   Notebook @relation(fields: [notebookId], references: [id], onDelete: Cascade)
+}
+
+model Answer {
+  id        String   @id @default(uuid())
+  queryId   String   @unique
+  text      String
+  citations String
+  createdAt DateTime @default(now())
+  query     Query    @relation(fields: [queryId], references: [id], onDelete: Cascade)
+}
+
+model FlashcardDeck {
+  id         String   @id @default(uuid())
+  notebookId String
+  sourceIds  String
+  title      String
+  cards      String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  notebook   Notebook @relation(fields: [notebookId], references: [id], onDelete: Cascade)
+
+  @@index([notebookId])
+}
+
+model Quiz {
+  id         String   @id @default(uuid())
+  notebookId String
+  sourceIds  String
+  title      String
+  questions  String
+  createdAt  DateTime @default(now())
+  notebook   Notebook @relation(fields: [notebookId], references: [id], onDelete: Cascade)
+
+  @@index([notebookId])
+}
+
+model MindMap {
+  id         String   @id @default(uuid())
+  notebookId String
+  sourceIds  String
+  title      String
+  root       String
+  createdAt  DateTime @default(now())
+  notebook   Notebook @relation(fields: [notebookId], references: [id], onDelete: Cascade)
+
+  @@index([notebookId])
+}
+
+model Roadmap {
+  id         String         @id @default(uuid())
+  notebookId String
+  sourceId   String
+  title      String
+  createdAt  DateTime       @default(now())
+  notebook   Notebook       @relation(fields: [notebookId], references: [id], onDelete: Cascade)
+  stages     RoadmapStage[]
+
+  @@index([notebookId])
+}
+
+model RoadmapStage {
+  id               String  @id @default(uuid())
+  roadmapId        String
+  order            Int
+  title            String
+  description      String
+  estimatedMinutes Int
+  outcomes         String
+  videoIds         String
+  completed        Boolean @default(false)
+  roadmap          Roadmap @relation(fields: [roadmapId], references: [id], onDelete: Cascade)
+
+  @@index([roadmapId])
+}
+
+model NotebookOverview {
+  id                 String   @id @default(uuid())
+  notebookId         String   @unique
+  sourceIds          String
+  title              String
+  summaryMarkdown    String
+  suggestedQuestions String
+  generatedAt        DateTime @default(now())
+  notebook           Notebook @relation(fields: [notebookId], references: [id], onDelete: Cascade)
+}
